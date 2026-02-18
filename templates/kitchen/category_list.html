@@ -1,0 +1,26 @@
+{% extends "kitchen/base.html" %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Categories</h2>
+<div class="row">
+    {% for category in categories %}
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    {% if category.description %}
+                        <p class="card-text">{{ category.description }}</p>
+                    {% endif %}
+                    <a href="{% url 'dish-list' category.id %}" class="btn btn-success">
+                        View Dishes
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>No categories available.</p>
+    {% endfor %}
+</div>
+{% endblock %}
