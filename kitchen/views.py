@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 from .models import Category
 
-def dish_list(request):
-    categories = Category.objects.prefetch_related("dishes").all()
-    return render(request, "kitchen/dish_list.html", {"categories": categories})
+class CategoryListView(ListView):
+    model = Category
+    template_name = "kitchen/category_list.html"
+    context_object_name = "categories"
