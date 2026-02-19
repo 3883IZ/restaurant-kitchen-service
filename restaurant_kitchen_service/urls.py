@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from kitchen.views import dish_list, CategoryListView, category_dishes
+from kitchen.views import dish_list, CategoryListView, category_dishes, register
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -13,6 +13,7 @@ urlpatterns = [
 
     # Авторизація
     path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/register/', register, name='register'),
 ]
 
 if settings.DEBUG:
