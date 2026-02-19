@@ -4,49 +4,24 @@
 
 {% block content %}
 <h2 class="mb-4">Dishes</h2>
-
-<!-- Форма пошуку -->
-<form method="get" class="mb-4">
-    <div class="input-group">
-        <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search dishes...">
-        <button class="btn btn-primary" type="submit">Search</button>
-    </div>
-</form>
-
 <div class="row">
-    {% for dish in page_obj %}
-        <div class="col-md-4 mb-3">
-            <div class="card shadow-sm">
-                <img src="{{ dish.image.url }}" class="card-img-top" alt="{{ dish.name }}">
+    {% for dish in dishes %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if dish.image %}
+                    <img src="{{ dish.image.url }}" class="card-img-top" alt="{{ dish.name }}">
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ dish.name }}</h5>
-                    <p class="card-text">{{ dish.description }}</p>
+                    <p class="card-text">
+                        <strong>Price:</strong> {{ dish.price }}<br>
+                        <strong>Category:</strong> {{ dish.category.name }}
+                    </p>
                 </div>
             </div>
         </div>
     {% empty %}
-        <p>No dishes found.</p>
+        <p>No dishes available.</p>
     {% endfor %}
 </div>
-
-<!-- Пагінація -->
-<nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Previous</a>
-            </li>
-        {% endif %}
-
-        <li class="page-item disabled">
-            <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-        </li>
-
-        {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next</a>
-            </li>
-        {% endif %}
-    </ul>
-</nav>
 {% endblock %}
