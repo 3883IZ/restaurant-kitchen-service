@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from kitchen.views import dish_list, CategoryListView
+from kitchen.views import dish_list, CategoryListView, category_dishes
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -9,6 +9,7 @@ urlpatterns = [
     path('', dish_list, name='home'),       # головна сторінка
     path('dishes/', dish_list, name='dish_list'),
     path('categories/', CategoryListView.as_view(), name='category_list'),
+    path('categories/<int:pk>/dishes/', category_dishes, name='category_dishes'),
 ]
 
 if settings.DEBUG:

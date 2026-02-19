@@ -13,7 +13,8 @@
                     {% if category.description %}
                         <p class="card-text">{{ category.description }}</p>
                     {% endif %}
-                    <a href="{% url 'dish-list' category.id %}" class="btn btn-success">
+                    <!-- Кнопка веде на список страв конкретної категорії -->
+                    <a href="{% url 'category_dishes' category.id %}" class="btn btn-success">
                         View Dishes
                     </a>
                 </div>
