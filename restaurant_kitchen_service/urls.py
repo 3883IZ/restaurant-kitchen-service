@@ -3,10 +3,6 @@ from django.urls import path, include
 from kitchen.views import dish_list, CategoryListView, category_dishes, register
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth.decorators import user_passes_test
-
-# доступ лише для staff
-admin.site.login = user_passes_test(lambda u: u.is_staff)(admin.site.login)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from .models import Category, Dish
 from .forms import CustomUserCreationForm
 
+
 @login_required
 def dish_list(request):
     query = request.GET.get("q")
@@ -13,20 +14,21 @@ def dish_list(request):
     if query:
         dishes = dishes.filter(name__icontains=query)
 
-    paginator = Paginator(dishes, 6)
+    paginator = Paginator(dishes, 6)  # 6 страв на сторінку
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    categories = Category.objects.prefetch_related("dishes").all()
+    categories = Category.objects.all()
     return render(
         request,
         "kitchen/dish_list.html",
         {"categories": categories, "page_obj": page_obj, "query": query},
     )
 
+
 @login_required
 def category_dishes(request, pk):
-    category = get_object_or_404(Category.objects.prefetch_related("dishes"), pk=pk)
+    category = get_object_or_404(Category, pk=pk)
     query = request.GET.get("q")
     dishes = category.dishes.all()
     if query:
@@ -38,9 +40,10 @@ def category_dishes(request, pk):
 
     return render(
         request,
-        "kitchen/dish_list.html",
-        {"categories": [category], "page_obj": page_obj, "query": query},
+        "kitchen/category_dishes.html",   # 🔹 тепер окремий шаблон
+        {"category": category, "page_obj": page_obj, "query": query},
     )
+
 
 class CategoryListView(ListView):
     model = Category
