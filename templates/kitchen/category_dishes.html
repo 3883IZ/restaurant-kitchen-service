@@ -1,26 +1,30 @@
 {% extends "kitchen/base.html" %}
 
-{% block title %}Dishes in {{ category.name }}{% endblock %}
+{% block title %}{{ category.name }} Dishes{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Dishes in {{ category.name }}</h2>
+<h2 class="mb-4 text-center">{{ category.name }} Dishes</h2>
 <div class="row">
     {% for dish in page_obj %}
         <div class="col-md-4 mb-4">
-            <div class="card h-100">
+            <div class="card h-100 shadow-sm">
                 {% if dish.image %}
                     <img src="{{ dish.image.url }}" class="card-img-top" alt="{{ dish.name }}">
                 {% endif %}
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ dish.name }}</h5>
-                    <p class="card-text">
-                        <strong>Price:</strong> {{ dish.price }}
+                    <p class="card-text mb-2">
+                        <span class="badge bg-success">Price: {{ dish.price }}</span><br>
+                        <span class="badge bg-info text-dark">Category: {{ dish.category.name }}</span>
                     </p>
+                    <div class="mt-auto">
+                        <a href="#" class="btn btn-primary w-100">Details</a>
+                    </div>
                 </div>
             </div>
         </div>
     {% empty %}
-        <p>No dishes available in this category.</p>
+        <p class="text-center">No dishes available in this category.</p>
     {% endfor %}
 </div>
 

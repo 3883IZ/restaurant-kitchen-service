@@ -1,0 +1,22 @@
+/* Основні стилі для сайту */
+body {
+    background-color: #f8f9fa; /* світлий фон */
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    background-color: #8B0000; /* темно-червоний */
+}
+
+.btn-primary {
+    background-color: #006400; /* зелений акцент */
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #228B22;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+}

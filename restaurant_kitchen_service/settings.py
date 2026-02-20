@@ -91,13 +91,22 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+# 🔹 Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
 
-# Media files
+# Вказуємо глобальну папку static всередині проекту
+STATICFILES_DIRS = [
+    BASE_DIR / "restaurant_kitchen_service" / "static"
+]
+
+# У production файли збираються сюди
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+
+# 🔹 Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
