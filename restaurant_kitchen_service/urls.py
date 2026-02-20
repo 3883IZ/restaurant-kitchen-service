@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from kitchen.views import dish_list, CategoryListView, category_dishes, register
+from kitchen.views import dish_list, CategoryListView, category_dishes, register, logout_view
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -12,7 +12,8 @@ urlpatterns = [
     path('categories/<int:pk>/dishes/', category_dishes, name='category_dishes'),
 
     # Авторизація
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/logout/', logout_view, name='logout'),   # 🔹 кастомний logout
+    path('accounts/', include('django.contrib.auth.urls')), # стандартні login/reset/password
     path('accounts/register/', register, name='register'),
 ]
 

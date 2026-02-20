@@ -2,12 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from .models import Category, Dish
 from .forms import CustomUserCreationForm
 
 
-@login_required
+# 🔹 Головна сторінка тепер доступна всім
 def dish_list(request):
     query = request.GET.get("q")
     dishes = Dish.objects.all()
@@ -40,7 +40,7 @@ def category_dishes(request, pk):
 
     return render(
         request,
-        "kitchen/category_dishes.html",   # 🔹 тепер окремий шаблон
+        "kitchen/category_dishes.html",   # 🔹 окремий шаблон
         {"category": category, "page_obj": page_obj, "query": query},
     )
 
@@ -62,3 +62,9 @@ def register(request):
     else:
         form = CustomUserCreationForm()
     return render(request, "registration/register.html", {"form": form})
+
+
+# 🔹 Кастомний Logout
+def logout_view(request):
+    logout(request)
+    return redirect("home")
