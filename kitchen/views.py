@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
 from django.shortcuts import render, redirect
+from django.contrib.auth import login
 from .models import Dish, Category
 from .forms import CustomUserCreationForm
 
@@ -51,13 +52,14 @@ class CategoryDetailView(DetailView):
         return context
 
 
-# 🔹 Кастомна реєстрація
+# 🔹 Кастомна реєстрація з автоматичним логіном
 def register(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            return redirect("login")
+            login(request, user)  # автоматичний логін
+            return redirect("home")  # редірект на головну
     else:
         form = CustomUserCreationForm()
     return render(request, "registration/register.html", {"form": form})
