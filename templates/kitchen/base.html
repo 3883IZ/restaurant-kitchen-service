@@ -43,19 +43,20 @@
 
                     <!-- Авторизація -->
                     {% if user.is_authenticated %}
-                        <li class="nav-item d-flex align-items-center">
-                            <form action="{% url 'logout' %}" method="post" class="d-flex align-items-center m-0">
+                        <li class="nav-item">
+                            <form action="{% url 'logout' %}" method="post" class="d-inline">
                                 {% csrf_token %}
-                                <button type="submit" class="nav-link border-0 bg-transparent p-0">Logout</button>
+                                <button type="submit" class="btn btn-link nav-link">Logout</button>
                             </form>
                         </li>
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">Login</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- Якщо кастомна реєстрація буде реалізована -->
+                        {# <li class="nav-item">
                             <a class="nav-link" href="{% url 'register' %}">Register</a>
-                        </li>
+                        </li> #}
                     {% endif %}
                 </ul>
             </div>

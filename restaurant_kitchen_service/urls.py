@@ -1,29 +1,34 @@
 from django.contrib import admin
 from django.urls import path, include
 from kitchen.views import (
-    dish_list,
+    DishListView,
+    DishDetailView,
     CategoryListView,
-    category_dishes,
-    register,
-    logout_view,
-    DishDetailView,   # 🔹 додано DetailView
+    CategoryDetailView,
+    register,   # ✅ додаємо імпорт register
 )
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', dish_list, name='home'),
-    path('dishes/', dish_list, name='dish_list'),
-    path('dishes/<int:pk>/', DishDetailView.as_view(), name='dish_detail'),  # 🔹 новий маршрут
+
+    # Список страв з пагінацією та пошуком
+    path('', DishListView.as_view(), name='home'),
+    path('dishes/', DishListView.as_view(), name='dish_list'),
+    path('dishes/<int:pk>/', DishDetailView.as_view(), name='dish_detail'),
+
+    # Категорії
     path('categories/', CategoryListView.as_view(), name='category_list'),
-    path('categories/<int:pk>/dishes/', category_dishes, name='category_dishes'),
+    path('categories/<int:pk>/', CategoryDetailView.as_view(), name='category_detail'),
 
     # Авторизація
-    path('accounts/logout/', logout_view, name='logout'),   # 🔹 кастомний logout
-    path('accounts/', include('django.contrib.auth.urls')), # стандартні login/reset/password
-    path('accounts/register/', register, name='register'),
+    path('accounts/logout/', LogoutView.as_view(next_page='home'), name='logout'),  # ✅ редірект на home
+    path('accounts/register/', register, name='register'),  # ✅ новий маршрут для реєстрації
+    path('accounts/', include('django.contrib.auth.urls')),  # стандартні login/reset/password
 ]
 
+# 🔹 Додаємо підтримку медіа-файлів у режимі DEBUG
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

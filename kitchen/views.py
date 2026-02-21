@@ -1,47 +1,37 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView
-from django.contrib.auth import login, logout
-from .models import Category, Dish
-from .forms import CustomUserCreationForm
+from django.db.models import Q
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
+from .models import Dish, Category
 
 
-# 🔹 Головна сторінка доступна всім
-def dish_list(request):
-    query = request.GET.get("q")
-    dishes = Dish.objects.all()
-    if query:
-        dishes = dishes.filter(name__icontains=query)
+class DishListView(ListView):
+    model = Dish
+    template_name = "kitchen/dish_list.html"
+    context_object_name = "dishes"   # список страв
+    paginate_by = 3
 
-    paginator = Paginator(dishes, 6)  # 6 страв на сторінку
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get("q")
+        if query:
+            queryset = queryset.filter(
+                Q(name__icontains=query) |
+                Q(description__icontains=query) |
+                Q(category__name__icontains=query)
+            )
+        return queryset
 
-    categories = Category.objects.all()
-    return render(
-        request,
-        "kitchen/dish_list.html",
-        {"categories": categories, "page_obj": page_obj, "query": query},
-    )
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["query"] = self.request.GET.get("q", "")
+        return context
 
 
-# 🔹 Категорії теж доступні всім
-def category_dishes(request, pk):
-    category = get_object_or_404(Category, pk=pk)
-    query = request.GET.get("q")
-    dishes = category.dishes.all()
-    if query:
-        dishes = dishes.filter(name__icontains=query)
-
-    paginator = Paginator(dishes, 6)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    return render(
-        request,
-        "kitchen/category_dishes.html",
-        {"category": category, "page_obj": page_obj, "query": query},
-    )
+class DishDetailView(DetailView):
+    model = Dish
+    template_name = "kitchen/dish_detail.html"
+    context_object_name = "dish"
 
 
 class CategoryListView(ListView):
@@ -50,27 +40,25 @@ class CategoryListView(ListView):
     context_object_name = "categories"
 
 
-# 🔹 Деталі страви
-class DishDetailView(DetailView):
-    model = Dish
-    template_name = "kitchen/dish_detail.html"
-    context_object_name = "dish"
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = "kitchen/category_detail.html"
+    context_object_name = "category"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # додаємо список страв цієї категорії
+        context["dishes"] = self.object.dish_set.all()
+        return context
 
 
-# 🔹 Реєстрація користувачів
+# 🔹 Стандартна реєстрація
 def register(request):
     if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)  # автоматичний логін після реєстрації
-            return redirect("home")
+            form.save()
+            return redirect("login")  # після реєстрації перенаправляємо на login
     else:
-        form = CustomUserCreationForm()
+        form = UserCreationForm()
     return render(request, "registration/register.html", {"form": form})
-
-
-# 🔹 Кастомний Logout
-def logout_view(request):
-    logout(request)
-    return redirect("home")
