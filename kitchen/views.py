@@ -1,14 +1,14 @@
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
-from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from .models import Dish, Category
+from .forms import CustomUserCreationForm
 
 
 class DishListView(ListView):
     model = Dish
     template_name = "kitchen/dish_list.html"
-    context_object_name = "dishes"   # список страв
+    context_object_name = "dishes"
     paginate_by = 3
 
     def get_queryset(self):
@@ -47,18 +47,17 @@ class CategoryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # додаємо список страв цієї категорії
         context["dishes"] = self.object.dish_set.all()
         return context
 
 
-# 🔹 Стандартна реєстрація
+# 🔹 Кастомна реєстрація
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("login")  # після реєстрації перенаправляємо на login
+            user = form.save()
+            return redirect("login")
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, "registration/register.html", {"form": form})
