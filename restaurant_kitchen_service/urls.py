@@ -1,6 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
-from kitchen.views import dish_list, CategoryListView, category_dishes, register, logout_view
+from kitchen.views import (
+    dish_list,
+    CategoryListView,
+    category_dishes,
+    register,
+    logout_view,
+    DishDetailView,   # 🔹 додано DetailView
+)
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -8,6 +15,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', dish_list, name='home'),
     path('dishes/', dish_list, name='dish_list'),
+    path('dishes/<int:pk>/', DishDetailView.as_view(), name='dish_detail'),  # 🔹 новий маршрут
     path('categories/', CategoryListView.as_view(), name='category_list'),
     path('categories/<int:pk>/dishes/', category_dishes, name='category_dishes'),
 

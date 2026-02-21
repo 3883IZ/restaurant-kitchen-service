@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth import login, logout
 from .models import Category, Dish
 from .forms import CustomUserCreationForm
@@ -48,6 +48,13 @@ class CategoryListView(ListView):
     model = Category
     template_name = "kitchen/category_list.html"
     context_object_name = "categories"
+
+
+# 🔹 Деталі страви
+class DishDetailView(DetailView):
+    model = Dish
+    template_name = "kitchen/dish_detail.html"
+    context_object_name = "dish"
 
 
 # 🔹 Реєстрація користувачів
