@@ -1,0 +1,64 @@
+/* Основні стилі для сайту */
+body {
+    background-color: #f8f9fa; /* світлий фон */
+    font-family: Arial, sans-serif;
+    color: #212529;
+}
+
+/* Навбар */
+.navbar {
+    background-color: #8B0000; /* темно-червоний */
+}
+.navbar-brand span {
+    font-weight: bold;
+    color: #fff;
+}
+.navbar .nav-link {
+    color: #ddd;
+}
+.navbar .nav-link:hover {
+    color: #fff;
+}
+
+/* Кнопки */
+.btn-primary {
+    background-color: #006400; /* зелений акцент */
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #228B22;
+}
+.btn-outline-primary {
+    border-color: #006400;
+    color: #006400;
+}
+.btn-outline-primary:hover {
+    background-color: #006400;
+    color: #fff;
+}
+
+/* Картки */
+.card {
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+.card-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* Футер */
+footer {
+    background-color: #333;
+    color: #fff;
+}
+footer p {
+    margin: 0;
+}
+footer .small {
+    color: #bbb;
+}
