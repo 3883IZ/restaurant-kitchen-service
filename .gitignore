@@ -1,4 +1,4 @@
-echo "# IDE
+# IDE
 .idea/
 
 # Python
@@ -17,6 +17,9 @@ db.sqlite3
 media/
 staticfiles/
 
+# Environment variables
+.env
+
 # OS
 .DS_Store
-Thumbs.db" > .gitignore
+Thumbs.db
