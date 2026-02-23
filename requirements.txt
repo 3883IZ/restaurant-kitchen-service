@@ -1,0 +1,11 @@
+Django==5.0.2
+djangorestframework==3.14.0
+psycopg2-binary==2.9.11
+# Pillow==10.2.0
+# NOTE:
+# Pillow is required for ImageField support (dish photos).
+# It is commented out here because Python 3.13 does not have prebuilt wheels,
+# causing installation errors. On Python 3.12 (mentor's environment),
+# simply uncomment this line and run `pip install -r requirements.txt`.
+django-bootstrap4==24.3
+python-dotenv==1.0.1
