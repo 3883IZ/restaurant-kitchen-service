@@ -32,11 +32,9 @@ DATABASES = {
 # Статика
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Media (демо через GitHub)
+# Media (навчальний варіант — файли з репозиторію)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
-# 👉 Для продакшн із Render Persistent Disk замінити на:
-# MEDIA_ROOT = "/media"
 
 # Логування для відображення помилок у Render Logs
 LOGGING = {
