@@ -24,6 +24,7 @@ staticfiles/
 
 # Environment variables
 .env
+Credentials.docx
 
 # Coverage / testing
 .coverage
