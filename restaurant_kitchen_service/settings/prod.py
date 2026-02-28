@@ -1,14 +1,17 @@
 from .base import *
 import os
 
-# Тимчасово для діагностики
-DEBUG = True
+# Продакшн режим
+DEBUG = False
 
 # Дозволені хости
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = []
 hostname = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if hostname:
     ALLOWED_HOSTS.append(hostname)
+else:
+    # fallback, якщо змінна не задана
+    ALLOWED_HOSTS = ["restaurant-kitchen-service.onrender.com"]
 
 # WhiteNoise для статичних файлів
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
@@ -44,6 +47,6 @@ LOGGING = {
     },
     "root": {
         "handlers": ["console"],
-        "level": "DEBUG",
+        "level": "INFO",  # у продакшн краще INFO, щоб не засмічувати логи
     },
 }
