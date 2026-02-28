@@ -5,7 +5,7 @@ from kitchen.views import (
     DishDetailView,
     CategoryListView,
     CategoryDetailView,
-    register,   # ✅ додаємо імпорт register
+    register,
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -24,11 +24,10 @@ urlpatterns = [
     path('categories/<int:pk>/', CategoryDetailView.as_view(), name='category_detail'),
 
     # Авторизація
-    path('accounts/logout/', LogoutView.as_view(next_page='home'), name='logout'),  # ✅ редірект на home
-    path('accounts/register/', register, name='register'),  # ✅ новий маршрут для реєстрації
-    path('accounts/', include('django.contrib.auth.urls')),  # стандартні login/reset/password
+    path('accounts/logout/', LogoutView.as_view(next_page='home'), name='logout'),
+    path('accounts/register/', register, name='register'),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
-# 🔹 Додаємо підтримку медіа-файлів у режимі DEBUG
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# 🔹 Для демо: віддаємо медіа навіть у продакшн
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
