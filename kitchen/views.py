@@ -11,6 +11,7 @@ class DishListView(ListView):
     template_name = "kitchen/dish_list.html"
     context_object_name = "dishes"
     paginate_by = 3
+    ordering = ["name"]  # 🔹 додано сортування для стабільної пагінації
 
     def get_queryset(self):
         queryset = super().get_queryset()
