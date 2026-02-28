@@ -48,7 +48,8 @@ class CategoryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["dishes"] = self.object.dish_set.all()
+        # Використовуємо related_name="dishes"
+        context["dishes"] = self.object.dishes.all()
         return context
 
 
