@@ -11,5 +11,9 @@ python manage.py collectstatic --no-input
 python manage.py migrate
 
 # Копіювання медіа у контейнер (щоб Render бачив фото)
-mkdir -p $PWD/media
-cp -r media/* $PWD/media/
+if [ -d "media" ]; then
+  echo "Copying media files..."
+  cp -r media $PWD/
+else
+  echo "No media directory found, skipping."
+fi
