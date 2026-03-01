@@ -8,9 +8,9 @@ https://docs.djangoproject.com/en/6.0/howto/deployment/wsgi/
 """
 
 import os
-
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'restaurant_kitchen_service.settings')
+# 🔹 Використовуємо base.py для локальної розробки
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'restaurant_kitchen_service.settings.base')
 
 application = get_wsgi_application()

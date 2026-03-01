@@ -19,8 +19,8 @@ INSTALLED_APPS = [
     'colorfield',
     'admin_interface',
 
-    # твої апки
-    'kitchen',
+    # твоя апка
+    'kitchen.apps.KitchenConfig',
 ]
 
 MIDDLEWARE = [
@@ -68,7 +68,7 @@ USE_TZ = True
 # 🔹 Статичні файли
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",   # правильний шлях до твоєї папки
+    BASE_DIR / "static",
 ]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
@@ -81,3 +81,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+# 🔹 База даних: Postgres на Render, SQLite локально
+if os.environ.get("POSTGRES_DB"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ.get("POSTGRES_DB"),
+            "USER": os.environ.get("POSTGRES_USER"),
+            "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+            "HOST": os.environ.get("POSTGRES_HOST"),
+            "PORT": os.environ.get("POSTGRES_DB_PORT"),
+        }
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }

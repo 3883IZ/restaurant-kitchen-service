@@ -3,6 +3,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    # Для демо можна залишити ImageField, якщо категорії мають власні фото
     image = models.ImageField(upload_to="categories/", blank=True, null=True)
 
     def __str__(self):
@@ -12,7 +13,7 @@ class Category(models.Model):
 class Dish(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(
-        default="No description available"  # дефолт для всіх рядків
+        default="No description available"
     )
     price = models.DecimalField(max_digits=6, decimal_places=2)
     category = models.ForeignKey(
@@ -22,7 +23,9 @@ class Dish(models.Model):
         null=False,
         default=1  # ID категорії "Default" (створи її в адмінці)
     )
-    image = models.ImageField(upload_to="dishes/", blank=True, null=True)
+    # 🔹 Заміна ImageField на CharField для роботи зі статикою
+    # Тут зберігається шлях типу 'img/dishes/spaghetti.jpg'
+    image = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.name
